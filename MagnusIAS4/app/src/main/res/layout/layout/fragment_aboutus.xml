@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="About Us"
+            android:fontFamily="cursive"
+            android:textColor="@android:color/background_dark"
+
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent">
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:fontFamily="cursive"
+                       android:padding="10dp"
+                       android:text = "When Lord Buddha was undergoing “Mahaparinirvana” in the shadow of a Saal tree at Kusinagar on a full moon day, his disciple Anand was weeping over Buddha’s departure and told him thus, “ Dear Lord! You are leaving me in the midst, and I haven’t become enlightened (Arihant) yet, what will happen to me? The world will be absolutely dark for me. You were the light…. Have compassion on us”
+
+Buddha opened his eyes, gave the last dictum, “ Ap Deepo Bhava”, meaning, “Be your own guiding light Anand. Nobody can be the light for you”.
+
+The Genesis of “Magnus Edutech” has its emotional bondage with the Buddhist dictum on Ethics “Ap Deepo Bhava”- Be your own guiding Light. The pedagogy of “Teach Yourself through SAVE (Smart Audio Video Education)” is an innovative and a well tested methodology of Magnus Edutech, developed by a senior civil servant with more than two decades of work experience .
+
+These days, we see a huge crowd of Civil Services’ Aspirants rushing to Delhi in quest of the right knowledge and guidance. Quite a few get distracted in the vagaries of the city life, intimidated by a plethora of unnecessary guidance, and thus loosing their focus and missing their target. The failures bring to them a sense of frustration.
+
+Moved by the plight of the young bright minds, we at Magnus Edutech, have devised an innovatively improvised take on the methodology of teaching through “Smart Audio Video Education” complemented with written concise key notes depicting key concepts and key words. This approach has delivered remarkable results as experienced from full-fledged trials with several students. In fact, with this methodology, the students find themselves more equipped than any other method to face the challenges in the Civil Services examination. Before bringing this concept to you, much research work has been done on the pedagogy, content of lectures, standard of keynotes and other aspects. The most important aspect, which has been the central theme of the Audio-video classes, is that the students must find themselves equipped to present their viewpoints in a more analytical manner within the limited time-span of the examination. Based on an extensive research, we have come to observe, that “What not to be studied?”, “ How can a student maximize his marks by spending minimum amount of time?”
+
+Since the class has been developed by a seasoned civil servant with more than 20 years of work experience and teaching, much hard work has been made to maintain the quality of the lectures vis-a-vis the aspirations of the budding civil servant. With this methodology, students will have the ease to learn at their own pace. They will be in position to revise the course within a short span of time, and can analyze their improvements at regular intervals in a more scientific manner. Moreover, they will not be constrained to experience the dehumanized environment of classroom teaching.
+
+To provide you with a snag-free technical support, we have a well-experienced team of professionals, thus ensuring your learning process continues without any hassles and you become your own light!"
+
+                       ></TextView>
+
+
+               </LinearLayout>
+
+
+
+            </ScrollView>
+
+
+
+</LinearLayout>
