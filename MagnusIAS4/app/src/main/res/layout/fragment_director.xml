@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            android:src="@drawable/arun"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_centerHorizontal="true">
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Arun Kumar"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="16sp"/>
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Civil Services- 1995 Batch"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        />
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Ex-Commissioner(DI)"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        />
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Central Vigilance Commission"
+        android:textColor="#000000"
+        android:textSize="16sp"/>
+
+
+
+</LinearLayout>
+
+
+    </RelativeLayout>
+        <!--android:layout_marginLeft="20dp"-->
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:text="Arun Kumar had an illustrious career as a civil servant while working in various Departments and Ministry. In his long tenure in CVC, DOPT, UPSC, MOD etc. he has published a number of government reports and submitted hundreds of inquiry reports, drafted many papers while discharging his duty as an administrator or as a bureaucrat. He was known in the Ministries for his academic pursuits and acumen.
+
+He did his B.Sc Hons from St Xaviers’ Ranchi, M.Sc in Zoology from D.U, LLB from Faculty of Law, Human Resource Management from XLRI, PG level course in Psychometric and Psychological Counseling.
+
+He had delivered lectures in LBSNA, IIMs, XLRI and conducted a number of workshop and seminar for the civil servants on diverse topics of Administration. He has developed his well-tested methodology of teaching all the subjects of General Studies including Essay Paper. He had devised a methodology of teaching on Audio- video platform, Smart Audio-Video Education ( SAVE) classes based on Harvard University pattern or on Khan Academy pattern. He had been a mentor of a number of Civil Servants in last 20 years. He tested his New methodology of teaching as a tool for distance learning for Civil Services Aspirants. A large number of students who are working or wanted to improve their rank in CSE got immensely benefitted. His expertise in the field of GS-Paper IV “ Ethics, Integrity, and Aptitude” and his acumen in Essay Writing are his strong forte.
+
+A civil servant of 1994 batch, and after serving more than 20 years in Govt. , he has decided to render his valuable service for mentoring Civil Services Aspirants. His unique methodology of teaching through Smart Audio Video Education (SAVE) classes are going to be an innovative and time-tested methodology for sure success."/>
+
+</LinearLayout>
+
+</LinearLayout>
+    </ScrollView>
+</LinearLayout>
