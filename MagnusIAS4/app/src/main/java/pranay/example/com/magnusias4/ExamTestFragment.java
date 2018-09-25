@@ -53,6 +53,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ExamTestFragment extends Fragment {
+    List<String> objects;
+    public List<String> ob;
+
     String ques_pdf;
     PDFView pdfView;
     private List<VideoListDataItem> dataFeed= new ArrayList<VideoListDataItem>();
@@ -73,12 +76,17 @@ public class ExamTestFragment extends Fragment {
          databaseHelper = new DatabaseHelper(getActivity());
         databaseHelper.createAnswerTable();
         Button submitExam;
+        ob=new ArrayList<String>();
+
+        objects=new ArrayList<>();
+
        /* String name = bundle.getString("name");
         String total_question = bundle.getString("total_question");
         String marks_correct_ans = bundle.getString("marks_correct_ans");
         String negative_mark = bundle.getString("negative_mark");
         String duration = bundle.getString("duration");
         String ques_pdf = bundle.getString("ques_pdf");*/
+
        String url  = bundle.getString("url");
         Log.i("Exam Test URL",url);
         View view = inflater.inflate(R.layout.fragment_exam_test, container, false);

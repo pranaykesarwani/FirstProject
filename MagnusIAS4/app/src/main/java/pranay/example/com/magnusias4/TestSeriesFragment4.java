@@ -75,7 +75,7 @@ public class TestSeriesFragment4 extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray dataArray = response.getJSONArray("subject_test_list");
+                            JSONArray dataArray = response.getJSONArray("subject-list");
                             Log.i("Temp", "" + response.toString());
 //                          ;
                             prepareAlbums(dataArray);
@@ -99,20 +99,41 @@ public class TestSeriesFragment4 extends Fragment {
         return view;
     }
 
-    private void prepareAlbums(JSONArray temp) throws JSONException {
+    private void prepareAlbums(JSONArray temp)  {
 
 
-
+        Album a;
+        String next_page_test ="",id ="",name = "", url= "", details = "",img = "",test_type=null;
         for (int i = 0; i < temp.length(); i++) {
+
+            try{
+
             JSONObject buffer = temp.getJSONObject(i);
-            String id= buffer.getString("id");
-            String name= buffer.getString("name");
-         //   String heading = buffer.getString("heading");
-            String url = buffer.getString("url");
-            String details = buffer.getString("type");
-            String img = buffer.getString("img");
-            Album a=  new Album(id, name,"",url,details,"http://magnusias.com/"+img,2020);
-            albumList.add(a);
+             id= buffer.getString("id");
+             name= buffer.getString("name");
+
+             url = buffer.getString("url");
+            details = buffer.getString("type");
+             img = buffer.getString("img");
+                img = "http://magnusias.com/"+img;
+               // test_type = buffer.getString("test_type");
+             next_page_test = buffer.getString("next_page_test");
+            Log.i("next_page_test",next_page_test);
+            }catch(JSONException e){Log.i("JSONException",e.toString());}
+            if (next_page_test.equals("0"))
+            {
+               a=  new Album(id, name,"",url,details,img,2021);
+                albumList.add(a);
+
+                Log.i("c","Not Found");
+            }
+            else {
+                Log.i("next_page_test", " Found");
+                a=  new Album(id, name,"",url,details,img,2020);
+                albumList.add(a);
+            }
+
+
 
         }
 

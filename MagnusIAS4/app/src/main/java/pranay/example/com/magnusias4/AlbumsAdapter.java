@@ -129,7 +129,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 if(stage==1000)
                 {
                     MainActivity mainActivity = (MainActivity)mContext;
-                    Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
 
                     mainActivity.getResourceList(url);
                 }
@@ -144,7 +144,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
 //                        Toast.makeText(mContext, sub_menu, Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(mContext, sub_menu, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(mContext, sub_menu, Toast.LENGTH_SHORT).show();
                    if (sub_menu.equals("Yes"))
                     {
                         MainActivity mainActivity = (MainActivity)mContext;
@@ -159,7 +159,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                     MainActivity mainActivity = (MainActivity)mContext;
 
                     mainActivity.getTestSeriesSubjectList(url);
-                    Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                    Log.i("url",url);
 
                 }
                 if(stage==2002)
@@ -167,7 +168,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                     MainActivity mainActivity = (MainActivity)mContext;
 
                     mainActivity.getTestSeriesSubjectListLevel2(url);
-                    Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                    Log.i("url",url);
 
                 }
                 if(stage==2020)
@@ -175,9 +177,38 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                     MainActivity mainActivity = (MainActivity)mContext;
 
                     mainActivity.getExamTest(url);
-                    Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                    Log.i("url",url);
 
                 }
+                if(stage==2021)
+                {
+                    MainActivity mainActivity = (MainActivity)mContext;
+
+                    mainActivity.getExamTestLevel5(url);
+                 //   Toast.makeText(mContext, ""+stage, Toast.LENGTH_SHORT).show();
+                    Log.i("stage",""+stage);
+
+                }
+                if(stage==2022)
+                {
+                    MainActivity mainActivity = (MainActivity)mContext;
+
+                    mainActivity.getExamTest(url);
+                   //  Toast.makeText(mContext, ""+stage, Toast.LENGTH_SHORT).show();
+                    Log.i("stage",""+stage);
+
+                }
+                if(stage==2023)
+                {
+                    MainActivity mainActivity = (MainActivity)mContext;
+
+                     mainActivity.getExamTestLevel6(url);
+                  //  Toast.makeText(mContext, ""+stage, Toast.LENGTH_SHORT).show();
+                    Log.i("stage",""+stage);
+
+                }
+
 
 
 
@@ -262,6 +293,42 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
                     mainActivity.getTestSeriesSubjectList(url);
                    // Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+
+                }
+                if(stage==2020)
+                {
+                    MainActivity mainActivity = (MainActivity)mContext;
+
+                    mainActivity.getExamTest(url);
+                    //Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                    Log.i("url",url);
+
+                }
+                if(stage==2021)
+                {
+                    MainActivity mainActivity = (MainActivity)mContext;
+
+                    mainActivity.getExamTestLevel5(url);
+                   // Toast.makeText(mContext, ""+stage, Toast.LENGTH_SHORT).show();
+                    Log.i("stage",""+stage);
+
+                }
+                if(stage==2022)
+                {
+                    MainActivity mainActivity = (MainActivity)mContext;
+
+                    mainActivity.getExamTest(url);
+                    Toast.makeText(mContext, ""+stage, Toast.LENGTH_SHORT).show();
+                    Log.i("stage",""+stage);
+
+                }
+                if(stage==2023)
+                {
+                    MainActivity mainActivity = (MainActivity)mContext;
+
+                    mainActivity.getExamTestLevel6(url);
+                    Toast.makeText(mContext, ""+stage, Toast.LENGTH_SHORT).show();
+                    Log.i("//stage",""+stage);
 
                 }
 

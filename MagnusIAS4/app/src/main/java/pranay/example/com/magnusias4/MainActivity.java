@@ -814,21 +814,52 @@ public void getChapterList(String ChapterURL ){
         FragmentManager fragmentManager  = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         ExamTestFragment examTestFragment = new ExamTestFragment();
-
-        Bundle bundle = new Bundle();
+        Log.i("Test URL",url);
+//        Bundle bundle = new Bundle();
        /* bundle.putString("name",name);
         bundle.putString("total_question",total_question);
         bundle.putString("marks_correct_ans",marks_correct_ans);
         bundle.putString("negative_mark",negative_mark);
         bundle.putString("duration",duration);
         bundle.putString("ques_pdf",ques_pdf);*/
-        bundle.putString("url",url);
+  //      bundle.putString("url",url);
+        Intent intent = new Intent(this,ExamActivity.class);
+        intent.putExtra("url",url);
+        startActivity(intent);
 
-
-        examTestFragment.setArguments(bundle);
+       // examTestFragment.setArguments(bundle);
       //  Log.i("url",url);
 
-        fragmentTransaction.replace(R.id.frame_container,examTestFragment).addToBackStack(null)
+        /*fragmentTransaction.replace(R.id.frame_container,examTestFragment).addToBackStack(null)
+                .commit();*/
+    }
+    public void getExamTestLevel5(String url){
+        FragmentManager fragmentManager  = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        TestSeriesFragment5 testSeriesFragment5 = new TestSeriesFragment5();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("url",url);
+
+        testSeriesFragment5.setArguments(bundle);
+        Log.i("url",url);
+
+        fragmentTransaction.replace(R.id.frame_container,testSeriesFragment5).addToBackStack(null)
+                .commit();
+    }
+
+    public void getExamTestLevel6(String url){
+        FragmentManager fragmentManager  = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        TestSeriesFragment6 testSeriesFragment6 = new TestSeriesFragment6();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("url",url);
+
+        testSeriesFragment6.setArguments(bundle);
+        Log.i("url",url);
+
+        fragmentTransaction.replace(R.id.frame_container,testSeriesFragment6).addToBackStack(null)
                 .commit();
     }
     public void getTestSeriesSubjectList(String url) {

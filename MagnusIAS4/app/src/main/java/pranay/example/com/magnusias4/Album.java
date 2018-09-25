@@ -5,7 +5,11 @@ package pranay.example.com.magnusias4;
  */
 public class Album {
     private String name,details,subject_id,topic_id,chapter_id,videoID,pdfDoc,email,mobile,hobbies,qualification,skills,post;
-   private String chpater_content_id,sub_menu,main_menu_id,heading,access_type,type;
+   private String chpater_content_id,sub_menu,main_menu_id,heading,access_type,type,test_type;
+
+    public String getTest_type() {
+        return test_type;
+    }
 
     public String getAccess_type() {
         return access_type;
@@ -228,6 +232,7 @@ public class Album {
         this.details = details;
         this.url = url;
         this.stage = stage;
+       // this.test_type = te
     }
     public Album(int stage,String id,String name,String access_type,String type ,String img_path,String url)
     {

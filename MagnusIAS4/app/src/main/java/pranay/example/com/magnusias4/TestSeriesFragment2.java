@@ -32,6 +32,7 @@ public class TestSeriesFragment2 extends Fragment {
     private RecyclerView recyclerView;
     private AlbumsAdapter adapter;
     private List<Album> albumList;
+    String test_type="";
 
     @Nullable
     @Override

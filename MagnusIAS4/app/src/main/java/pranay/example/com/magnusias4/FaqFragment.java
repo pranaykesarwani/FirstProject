@@ -252,7 +252,7 @@ public class FaqFragment extends Fragment {
                 VideoListDataItem currentItem = dataFeed.get(position);
 
 
-                Toast.makeText(getActivity(), "Videos will be available shortly!", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActivity(), "Videos will be available shortly!", Toast.LENGTH_SHORT).show();
                 //
                 //              MainActivity mainActivity = (MainActivity)getActivity();
 //                mainActivity.getChapterVideoList(currentItem.getChapterURL());

@@ -73,7 +73,7 @@ public class SubjectFragment extends Fragment {
         float dpHeight = outMetrics.heightPixels / density;
         float dpWidth  = outMetrics.widthPixels / density;
        // Log.i("Height of Device",""+dpHeight);
-        Toast.makeText(getActivity(), ""+outMetrics.heightPixels, Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getActivity(), ""+outMetrics.heightPixels, Toast.LENGTH_SHORT).show();
       //  Log.i("Height of Device",""+dpHeight);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
