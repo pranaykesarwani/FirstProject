@@ -20,6 +20,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -62,7 +63,8 @@ public class TestLayoutFragment0 extends android.support.v4.app.Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         View view = inflater.inflate(R.layout.test_layout, container, false);
-
+        ImageView imageView = (ImageView)view.findViewById(R.id.backdrop);
+       // imageView.setImageR(R.drawable.cover1);
         Log.i("Subject Categ","1");
         databaseHelper = new DatabaseHelper(getActivity());
 

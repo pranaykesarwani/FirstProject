@@ -172,24 +172,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("subject_name",subject_name);
         contentValues.put("question_number",question_number);
         contentValues.put("answer",answer);
-        Log.i("subject_name  DB Table",subject_name);
+     //   Log.i("subject_name  DB Table",subject_name);
 
         long result = db.insert("answer_table",null,contentValues);
         if (result== -1) {
             Log.i("answer_table Result", "Row updation failed!!!");
         }else{
-            Log.i("answer_table Result","Row updated successfully!!!");
+          //  Log.i("answer_table Result","Row updated successfully!!!");
         }
 
     }
 
+    public Cursor getSavedAnswer(String test_id){
+        SQLiteDatabase db;
+
+        db = this.getReadableDatabase();
+        Log.i("Cursor Test_id",""+test_id);
+
+        Cursor cursor  = db.rawQuery("select id,marked_answer from answer_table",null);//" where test_id = "+test_id + " and question_number ="+ question_no
+
+        return  cursor;
+    }
     public Cursor  getAnswer( String test_id,String question_no){
         SQLiteDatabase db;
 
         db = this.getReadableDatabase();
 
 
-        Cursor cursor  = db.rawQuery("select answer,marked_answer from answer_table",null);//" where test_id = "+test_id + " and question_number ="+ question_no
+        Cursor cursor  = db.rawQuery("select answer,marked_answer from answer_table where test_id = "+test_id,null);//" where test_id = "+test_id + " and question_number ="+ question_no
 
         return  cursor;
     }

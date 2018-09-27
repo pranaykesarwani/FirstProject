@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity //implements HomeFragment.Se
             Log.i("Device ID Exception",e.toString());
 
         }
-
+        databaseHelper = new DatabaseHelper(MainActivity.this);
+        databaseHelper.createAnswerTable();
 
             Display display = getWindowManager(). getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
@@ -217,7 +218,7 @@ serverSync.setOnClickListener(new View.OnClickListener() {
         resourcesLayout = (LinearLayout) findViewById(R.id.resourcesLayout);
         gallerylayout = (LinearLayout) findViewById(R.id.resources_gallery_Layout);
         reflayout = (LinearLayout) findViewById(R.id.referencelayout);
-
+        gallerylayout.setVisibility(View.GONE);
 
        // reflayout.setVisibility(View.GONE);
         resourcesLayout.setVisibility(View.GONE);
@@ -231,9 +232,9 @@ serverSync.setOnClickListener(new View.OnClickListener() {
         btnresources = (Button)findViewById(R.id.resources);
      //   btnresources.setVisibility(View.GONE);
         btngallery =  (Button)findViewById(R.id.gallery);
-        //btngallery.setVisibility(View.GONE);
+        btngallery.setVisibility(View.GONE);
         btnref  =(Button)findViewById(R.id.reference);
-       // btnref.setVisibility(View.GONE);
+        btnref.setVisibility(View.GONE);
         btnAboutUs = (Button)findViewById(R.id.aboutus);
         btnOurTeam = (Button)findViewById(R.id.ourteam);
         btnDirector= (Button)findViewById(R.id.director);

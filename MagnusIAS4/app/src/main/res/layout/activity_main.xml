@@ -310,7 +310,8 @@
             android:background="@android:color/white"
             android:paddingLeft="5dp"
             android:text="Save Data Offline"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:visibility="gone"/>
 
 
 
