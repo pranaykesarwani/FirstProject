@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -76,9 +78,20 @@ public class MainActivity extends AppCompatActivity //implements HomeFragment.Se
     DrawerLayout drawer;
     boolean login_result;
     String login_username,login_password;
+    boolean result;
     LinearLayout submenulayout,subsubmenuLayout,subsubmenuLayout2,aboutLayout,resourcesLayout,gallerylayout,reflayout;
+    String login_result_status="test";
+    MainActivity mainActivity;
 
-    Button btnTopMenu,btnSubMenu,btnSubMenu2,btnOurResources,btnContact,btnSampleClasses,btnPricing,btnBibliography,btnNotice,btnarticle,btnVideo,btnImage,btnTestSeries,btnSubjects,btnfaq,btnmission,btnMethodology,btnDirector,btnOurTeam,home,about,subject,btntest_series,btnresources,btngallery,btnresource,btnref, btnAboutUs;
+    public String getLogin_result_status() {
+        return login_result_status;
+    }
+
+    public void setLogin_result_status(String login_result_status) {
+        this.login_result_status = login_result_status;
+    }
+
+    Button btnTopMenu,btnSubMenu,btnSubMenu2,btnLogout,btnOurResources,btnContact,btnSampleClasses,btnPricing,btnBibliography,btnNotice,btnarticle,btnVideo,btnImage,btnTestSeries,btnSubjects,btnfaq,btnmission,btnMethodology,btnDirector,btnOurTeam,home,about,subject,btntest_series,btnresources,btngallery,btnresource,btnref, btnAboutUs;
     boolean topMenuFlag=false;
     boolean subMenuFlag=false;
     boolean subMenuFlag1  = false;
@@ -87,8 +100,9 @@ public class MainActivity extends AppCompatActivity //implements HomeFragment.Se
     VideoView videoView;
     String imei,android_id;
 
-    DatabaseHelper databaseHelper;
+    DatabaseHelper databaseHelper,dh;
     SQLiteDatabase sqLiteDatabase = null;
+    boolean isLogin_result =false;
 
 
     boolean k=false;
@@ -100,6 +114,7 @@ public class MainActivity extends AppCompatActivity //implements HomeFragment.Se
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
+
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED)
         {
@@ -119,6 +134,8 @@ public class MainActivity extends AppCompatActivity //implements HomeFragment.Se
         databaseHelper = new DatabaseHelper(MainActivity.this);
         databaseHelper.createAnswerTable();
 
+
+
             Display display = getWindowManager(). getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
@@ -130,7 +147,9 @@ public class MainActivity extends AppCompatActivity //implements HomeFragment.Se
         Log.i("height", "" + dpHeight);
       //  Toast.makeText(this, "Width "+ width, Toast.LENGTH_SHORT).show();
 
-Button serverSync = (Button)findViewById(R.id.serverSync);
+        Log.i("Main.login_status",""+LoginSession.login_status);
+
+        Button serverSync = (Button)findViewById(R.id.serverSync);
 
 serverSync.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -145,7 +164,7 @@ serverSync.setOnClickListener(new View.OnClickListener() {
                 new LoginFragment()).commit();
       */
 
-        view = LayoutInflater.from(MainActivity.this).inflate(R.layout.fragment_login,null);
+       /* view = LayoutInflater.from(MainActivity.this).inflate(R.layout.fragment_login,null);
          final EditText   username = (EditText)view.findViewById(R.id.login_username);
          final EditText  password = (EditText)view.findViewById(R.id.login_password);
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -171,7 +190,8 @@ serverSync.setOnClickListener(new View.OnClickListener() {
                     }
                 })
                 .show();
-
+*/
+       // checkUserLogin();
         drawer.closeDrawer(llLeft);
 
 
@@ -253,10 +273,36 @@ serverSync.setOnClickListener(new View.OnClickListener() {
         btnSampleClasses.setVisibility(View.GONE);
         btnContact= (Button)findViewById(R.id.contact);
         btnOurResources = (Button)findViewById(R.id.our_resources);
-
+        btnLogout = (Button)findViewById(R.id.btnLogOut);
         title_bar = (TextView)findViewById(R.id.toolbar_title);
 
 
+try {
+
+       /* if (isLogin_result==true)
+        {
+            btnLogout.setVisibility(View.VISIBLE);
+        }
+*/
+       if (LoginSession.login_status==true)
+       {
+           btnLogout.setVisibility(View.VISIBLE);
+       }
+
+
+}catch (Exception e){e.printStackTrace();}
+
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginSession.login_status = false;
+
+                btnLogout.setVisibility(View.GONE);
+
+                Toast.makeText(context, "Logging out...", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnOurResources.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -655,8 +701,12 @@ btnContact.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 k=!k;
                 // unlockDrawer(k);
-                if(k)
+                if(k){
                     drawer.openDrawer(llLeft);
+                    Log.i("Drawer.login_status",""+LoginSession.login_status);
+
+
+                }
                 else
                     drawer.closeDrawer(llLeft);
             }
@@ -664,34 +714,168 @@ btnContact.setOnClickListener(new View.OnClickListener() {
 
     }
 
-    private void authenticate(String u, String p, final String android_id) {
-        Log.i("Authenticate","1");
-        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-        Log.i("Authenticate","2");
+    public  void checkUserLogin() {
 
-        StringRequest stringRequest  = new StringRequest(Request.Method.GET, "http://magnusias.com/app-api/app-login.php?username="+ u+"&password="+p+"&device_id="+android_id,
+
+
+        FragmentManager fragmentManager  = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        //LoginFragment loginFragment = new LoginFragment();
+      //  LoginPage loginPage = new LoginPage();
+        ChapterListFragment chapterListFragment = new ChapterListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("android_id",android_id);
+        chapterListFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.frame_container,chapterListFragment).addToBackStack(null)
+                .commit();
+
+
+
+
+        //   final boolean[] result = new boolean[1];
+     /* View  view = LayoutInflater.from(MainActivity.this).inflate(R.layout.fragment_login,null);
+        final EditText   username = (EditText)view.findViewById(R.id.login_username);
+        final EditText  password = (EditText)view.findViewById(R.id.login_password);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false)
+                .setTitle("Aunthentication")
+                .setView(view)
+                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        login_username = username.getText().toString();
+                        login_password = password.getText().toString();
+
+                        // login_result =
+                        Log.i("Credentials",login_username+" "+login_password+" "+android_id);
+
+                        RequestQueue loginqueue = Volley.newRequestQueue(MainActivity.this);
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "http://magnusias.com/app-api/app-login.php?username=" + login_username + "&password=" + login_password + "&device_id=" + android_id, null, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    JSONObject temp = response.getJSONObject("login-status");
+                                    String login_status = temp.getString("login-status");
+                                    String user_type = temp.getString("user_type");
+                                    Log.i("Login", temp.toString());
+                                    if (login_status.equals("success") && (user_type.equals("paid"))) {
+                                        // authenticate_result[0] =true;
+                                        //r[0] = "success";
+                                        login_result_status = "success";
+                                        setLogin_result_status(login_status);
+                                        mainActivity.setLogin_result_status(login_result_status);
+                                        String prk1 = mainActivity.getResult(login_status);
+                                        //mainActivity.login_result_status = login_status;
+                                        Log.i("Test", "Received Data!");
+                                     //   Toast.makeText(context, t1[0], Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        //authenticate_result[0] =false;
+                                        login_result_status = "fail";
+                                        mainActivity.login_result_status = login_status;
+                                        mainActivity.setLogin_result_status(login_result_status);
+                                       *//* r[0] = "fail";
+                                        t1[0] ="2";
+                                       *//* setLogin_result_status(login_status);
+                                        Log.i("Test", "Didn't receive data");
+                                        //Toast.makeText(context, t1[0], Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                    *//* for(int i = 0;i<temp.length(); i++) {
+                        JSONObject buffer = temp.getJSONObject(i);
+                        String login_status = buffer.getString("login-status");
+                        String user_type = buffer.getString("user_type");
+
+                    }
+*//*
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("Login Error",error.toString());
+
+                            }
+                        });
+
+                        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+                        loginqueue.add(jsonObjectRequest);
+
+                   // String r=    authenticate(login_username,login_password,android_id);
+
+
+                     Log.i("Result in UserLogin","1 "+ getLogin_result_status()+" "+login_result_status);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(context, "Login Cancelled", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+
+    }
+
+    private String getResult(String login_status) {
+
+        login_result_status = login_result_status;
+        Log.i("login_result_status",login_result_status);
+        return login_status;
+
+
+    }
+
+    String  authenticate(String u, String p, final String android_id) {
+         final String[] r = {"123"};
+         final String[] t1 = {"sdkjfdskjn"};
+        final boolean[] authenticate_result = new boolean[1];
+        Log.i("Authenticate", "1");
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        Log.i("Authenticate", "2");
+
+       // login_result_status = authenticate_result[0];
+
+        Log.i("Authenticate Result", "2 " + mainActivity.getLogin_result_status());
+
+        return r[0];
+    }
+
+    private String pankaj(String s) {
+
+        return s;*/
+    }
+       /* StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://magnusias.com/app-api/app-login.php?username=" + u + "&password=" + p + "&device_id=" + android_id,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.toString().trim().equals("1")){
-                        Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
-                        Log.i("Server Response",response);
-                        }
-                        else{
-                            Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_LONG).show();
-                            Log.i("Server Response",response);
 
-                        }
+
+
+                        *//*if (response.toString().equals("1")) {
+                            Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+                            Log.i("Server Response 1", response);
+                            result[0] = true;
+                        } else {
+                            Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_LONG).show();
+                            Log.i("Server Response 2", response);
+                            result[0] = false;
+
+                        }*//*
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                Log.i("Server Error Response",error.toString());
+                Log.i("Server Error Response", error.toString());
             }
         });
         MySingleton.getInstance(MainActivity.this).addToRequestQueue(stringRequest);
-
+*/
 
 
 
@@ -761,7 +945,7 @@ btnContact.setOnClickListener(new View.OnClickListener() {
 
 
         //return  false;
-    }
+   // }
 /*
     @Override
     public void sendData(String message) {
@@ -808,14 +992,70 @@ public void getChapterList(String ChapterURL ){
     }
 
 
+    public void getRandomTest(String url){
 
-   //public void getExamTest(String name, String total_question,String marks_correct_ans,String negative_mark,String duration,String ques_pdf)
-    public void getExamTest(String url)
-    {
         FragmentManager fragmentManager  = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        RandomExamTest randomExamTest = new RandomExamTest();
+     //   Log.i("Test URL",url);
+        Bundle bundle = new Bundle();
+        bundle.putString("url",url);
+        randomExamTest.setArguments(bundle);
+       Intent intent = new Intent(MainActivity.this,RandomTestActivity.class);
+       intent.putExtra("url",url);
+       startActivity(intent);
+        // Toast.makeText(context, "Random Test will be available shortly", Toast.LENGTH_SHORT).show();
+        //fragmentTransaction.replace(R.id.frame_container,randomExamTest).addToBackStack(null).commit();
+
+    }
+   //public void getExamTest(String name, String total_question,String marks_correct_ans,String negative_mark,String duration,String ques_pdf)
+
+   public void checkLogin(String url,String pageType,String chpater_content_id, String chapter_id){
+       //FragmentManager fragmentManager  = getSupportFragmentManager();
+       //android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+       //LoginFragment loginFragment = new LoginFragment();
+         //LoginPage loginPage = new LoginPage();
+      // ChapterListFragment chapterListFragment = new ChapterListFragment();
+
+      /* Bundle bundle = new Bundle();
+       bundle.putString("url",url);
+       bundle.putString("android_id",android_id);
+       loginPage.setArguments(bundle);
+       fragmentTransaction.replace(R.id.frame_container,loginPage).addToBackStack(null)
+               .commit();
+*/
+       //Toast.makeText(context, ""+1, Toast.LENGTH_SHORT).show();
+  //     Log.i("checkLogin","1");
+       if(LoginSession.login_status==true){
+           btnLogout.setVisibility(View.VISIBLE);
+       }
+       else
+       {
+           btnLogout.setVisibility(View.GONE);
+       }
+       Intent intent = new Intent(this,LoginActivity.class);
+       intent.putExtra("pageType",pageType);
+       intent.putExtra("url",url);
+       intent.putExtra("chpater_content_id",chpater_content_id);
+       intent.putExtra("chapter_id",chapter_id);
+       startActivity(intent);
+
+
+
+}
+    public void getExamTest(){
+       String  url= "http://magnusias.com/app-api/subject-wise-objective-test.php?subject_test_id=5";
+        Intent intent = new Intent(this,ExamActivity.class);
+        intent.putExtra("url",url);
+        startActivity(intent);
+
+    }
+    public void getExamTest(String url)
+    {
+      /*  FragmentManager fragmentManager  = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         ExamTestFragment examTestFragment = new ExamTestFragment();
-        Log.i("Test URL",url);
+      *///  Log.i("Test URL",url);
 //        Bundle bundle = new Bundle();
        /* bundle.putString("name",name);
         bundle.putString("total_question",total_question);
@@ -824,6 +1064,7 @@ public void getChapterList(String ChapterURL ){
         bundle.putString("duration",duration);
         bundle.putString("ques_pdf",ques_pdf);*/
   //      bundle.putString("url",url);
+     //   url= "http://magnusias.com/app-api/subject-wise-objective-test.php?subject_test_id=5";
         Intent intent = new Intent(this,ExamActivity.class);
         intent.putExtra("url",url);
         startActivity(intent);
@@ -846,6 +1087,21 @@ public void getChapterList(String ChapterURL ){
         Log.i("url",url);
 
         fragmentTransaction.replace(R.id.frame_container,testSeriesFragment5).addToBackStack(null)
+                .commit();
+    }
+
+    public void getExamTestLevel7(String url){
+        FragmentManager fragmentManager  = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        TestSeriesFragment7 testSeriesFragment7 = new TestSeriesFragment7();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("url",url);
+
+        testSeriesFragment7.setArguments(bundle);
+        Log.i("url",url);
+
+        fragmentTransaction.replace(R.id.frame_container,testSeriesFragment7).addToBackStack(null)
                 .commit();
     }
 
@@ -925,15 +1181,26 @@ public void getChapterList(String ChapterURL ){
 
     }
 
-    public void getTest(String url) {
+    public void getMockTestMains(String url){
+        FragmentManager fragmentManager  = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        MockTestMains mockTestMains = new MockTestMains();
+        fragmentTransaction.replace(R.id.frame_container,mockTestMains).addToBackStack(null)
+                .commit();
+
+    }
+    public void getTest(String url,String mockTestId) {
+        Log.i("url",url);
         FragmentManager fragmentManager  = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         MockTestSeriesFragment mockTestSeriesFragment = new MockTestSeriesFragment();
         Bundle bundle = new Bundle();
         bundle.putString("url",url);
+        Log.i("mockTestId",mockTestId);
+        bundle.putString("mockTestId",mockTestId);
 
         mockTestSeriesFragment.setArguments(bundle);
-        Log.i("url",url);
+
 
         fragmentTransaction.replace(R.id.frame_container,mockTestSeriesFragment).addToBackStack(null)
                 .commit();
@@ -1625,7 +1892,6 @@ public void syncFromServer()
 
 
 }
-
 
 
 

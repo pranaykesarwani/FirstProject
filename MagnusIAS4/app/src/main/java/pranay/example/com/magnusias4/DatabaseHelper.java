@@ -163,6 +163,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     }
+    public void createLoginSession(){
+        SQLiteDatabase db;
+
+        db = this.getWritableDatabase();
+
+        db.execSQL("drop table if exists login_session");
+        db.execSQL("CREATE TABLE `login_session` (\n" +
+                "  `id`  varchar(255) PRIMARY KEY  ,\n" +
+                "  `status` varchar(255)    \n" +
+                ")");
+
+    }
+    public void setSession(String id,String status){
+        SQLiteDatabase db;
+        db = this.getWritableDatabase();
+        ContentValues contentValues  = new ContentValues();
+        contentValues.put("id",id);
+        contentValues.put("status",status);
+        long result = db.insert("login_session",null,contentValues);
+        if (result== -1) {
+            Log.i("login_session Result", "Row updation failed!!!");
+        }
+        else{
+            Log.i(" Login Session","Session updated Successfully!");
+        }
+    }
+
+    public Cursor getSessionData(){
+        SQLiteDatabase db;
+
+        db = this.getReadableDatabase();
+
+        Cursor cursor =  db.rawQuery("select status from login_session",null);
+        return cursor;
+
+    }
+
     public void setAnswerTableData(String id,String test_id,String subject_name,String question_number,String answer ){
         SQLiteDatabase db;
         db = this.getWritableDatabase();

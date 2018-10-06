@@ -19,5 +19,5 @@
 <ListView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/random_test_list"></ListView>
+    android:id="@+id/random_test_list_0"></ListView>
 </LinearLayout>

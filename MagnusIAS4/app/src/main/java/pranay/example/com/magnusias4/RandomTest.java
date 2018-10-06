@@ -1,5 +1,7 @@
 package pranay.example.com.magnusias4;
 
+import android.util.Log;
+
 public class RandomTest {
     String question_num,question,options,answers,description,question_type,pdf,video_url,hints;
 
@@ -13,6 +15,7 @@ public class RandomTest {
         this.pdf = pdf;
         this.video_url = video_url;
         this.hints = hints;
+        Log.i("Random Constructor","1");
     }
 
     public String getQuestion_num() {

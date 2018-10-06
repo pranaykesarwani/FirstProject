@@ -124,16 +124,17 @@ public class TestSeriesFragment5 extends Fragment {
             }*/
             if (next_page_test.equals("0"))
             {
+                Log.i("Level 5","Not Found");
                a=  new Album(id, name,"",url,details,img,2023);
                // albumList.add(a);
                 stage =2023;
                 //a=  new Album(id, name,"",url,details,img,stage);
                 albumList.add(a);
-                Log.i("c","Not Found");
+
             }
             else {
                 Log.i("next_page_test", " Found");
-                a=  new Album(id, name,"",url,details,img,2022);
+                a=  new Album(id, name,"",url,details,img,2020,"",0);
                // albumList.add(a);
                 //stage  = 2022;
                 //a=  new Album(id, name,"",url,details,img,stage);

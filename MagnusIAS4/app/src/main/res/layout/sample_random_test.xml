@@ -41,15 +41,76 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
-
-        <TextView
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Options"
-            android:textSize="@dimen/random_test_text_size"
-            android:id="@+id/options"/>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="@dimen/random_test_text_size"
+                android:text="A"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="@dimen/random_test_text_size"
+                android:text="B"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="@dimen/random_test_text_size"
+                android:text="C"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="@dimen/random_test_text_size"
+                android:text="D"/>
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Options"
+                android:textSize="@dimen/random_test_text_size"
+                android:id="@+id/option1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Options"
+                android:textSize="@dimen/random_test_text_size"
+                android:id="@+id/option2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Options"
+                android:textSize="@dimen/random_test_text_size"
+                android:id="@+id/option3"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Options"
+                android:textSize="@dimen/random_test_text_size"
+                android:id="@+id/option4"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -59,12 +120,14 @@
         android:layout_margin="20dp">
 
         <EditText
+            android:id="@+id/answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:capitalize="characters"
             android:hint="Answer"
-            android:textSize="@dimen/random_test_text_size"
-            android:id="@+id/answer"/>
+            android:textAllCaps="true"
+            android:textSize="@dimen/random_test_text_size" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +141,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:id="@+id/hintLayout"
+        android:visibility="gone">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,5 +160,28 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:id="@+id/descriptionLayout"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:layout_margin="10dp"
+            android:textSize="@dimen/random_test_text_size"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Description"
+            android:textSize="@dimen/random_test_text_size"
+            android:id="@+id/description"/>
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

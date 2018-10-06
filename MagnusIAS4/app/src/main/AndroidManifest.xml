@@ -35,12 +35,12 @@
             android:name=".ResourceContent"
             android:label="@string/title_activity_resource_content"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".ExamActivity"
-
-           >
-
-        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ExamActivity" />
+        <activity android:name=".VideoAcitvity" />
+        <activity android:name=".RandomTestActivity"></activity>
     </application>
 
 </manifest>

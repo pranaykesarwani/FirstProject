@@ -6,6 +6,11 @@ package pranay.example.com.magnusias4;
 public class Album {
     private String name,details,subject_id,topic_id,chapter_id,videoID,pdfDoc,email,mobile,hobbies,qualification,skills,post;
    private String chpater_content_id,sub_menu,main_menu_id,heading,access_type,type,test_type;
+private int stage2;
+
+    public int getStage2() {
+        return stage2;
+    }
 
     public String getTest_type() {
         return test_type;
@@ -223,6 +228,17 @@ public class Album {
         //TestSeriesFragement2
     }
 
+    public Album(String id,String name,String heading,String url,String details ,String img_path,int stage, String test_type,int stage2)
+    {
+        this.name = name;
+        this.id = id;
+        this.heading = heading;
+        this.img_path = img_path;
+        this.details = details;
+        this.url = url;
+        this.stage = stage;
+        this.test_type = test_type;
+    }
     public Album(String id,String name,String heading,String url,String details ,String img_path,int stage)
     {
         this.name = name;
@@ -232,8 +248,9 @@ public class Album {
         this.details = details;
         this.url = url;
         this.stage = stage;
-       // this.test_type = te
+
     }
+
     public Album(int stage,String id,String name,String access_type,String type ,String img_path,String url)
     {
         this.name = name;

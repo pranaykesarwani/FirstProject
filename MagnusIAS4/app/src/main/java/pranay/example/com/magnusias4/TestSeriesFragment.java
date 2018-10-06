@@ -109,7 +109,12 @@ public class TestSeriesFragment extends Fragment {
             String url = buffer.getString("url");
             String main_menu_id = buffer.getString("main_menu_id");
 
-              Log.i("sub_menu",sub_menu);
+            if (id.equals("58"))
+            {
+                Log.i("Mock Test","ID Found!!!!!!!!!!");
+            }
+
+              Log.i("sub_menu",sub_menu+" "+id);
             Album a=  new Album(id, name,main_menu_id,sub_menu,url,2000);
             albumList.add(a);
 

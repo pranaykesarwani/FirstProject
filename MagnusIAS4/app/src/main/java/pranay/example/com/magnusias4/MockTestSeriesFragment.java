@@ -32,6 +32,7 @@ public class MockTestSeriesFragment extends Fragment {
     private RecyclerView recyclerView;
     private AlbumsAdapter adapter;
     private List<Album> albumList;
+    int stage2=0;
 
     @Nullable
     @Override
@@ -39,6 +40,16 @@ public class MockTestSeriesFragment extends Fragment {
 
         Bundle bundle = getArguments();
         String url = bundle.getString("url");
+        String mockTestId = bundle.getString("mockTestId");
+        if (mockTestId.equals("58"))
+        {
+            Log.i("mockTestId in MTSF",mockTestId);
+            stage2 = 58;
+        }
+        else
+        {
+            stage2 =0;
+        }
         View view = inflater.inflate(R.layout.content_main, container, false);
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -115,6 +126,8 @@ public class MockTestSeriesFragment extends Fragment {
 
             //  Log.i("Image Path",img_path);
             Album a=  new Album(2020,id, name,access_type,type,img,url);
+            a=  new Album(id, name,"",url,"",img,2020,"",stage2);
+
             albumList.add(a);
 
         }

@@ -112,7 +112,7 @@ public class TestSeriesFragment2 extends Fragment {
             String url = buffer.getString("url");
             String main_menu_id = buffer.getString("main_menu_id");
 
-            //  Log.i("Image Path",img_path);
+              Log.i("Image Path",url);
             Album a=  new Album(id, name,main_menu_id,second_menu,url,2001);
             albumList.add(a);
 

@@ -75,7 +75,7 @@ public class TestSeriesFragment6 extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray dataArray = response.getJSONArray("subject_list");
+                            JSONArray dataArray = response.getJSONArray("subject-list");
                             Log.i("Temp", "" + response.toString());
 //                          ;
                             prepareAlbums(dataArray);
@@ -118,27 +118,9 @@ public class TestSeriesFragment6 extends Fragment {
              img = buffer.getString("img");
              img = "http://magnusias.com/"+img;
             }catch(JSONException e){Log.i("JSONException",e.toString());}
-           /* if ((img == null) ||(details == null))
-            {
-
-            }*/
-            if (next_page_test.equals("0"))
-            {
-               a=  new Album(id, name,"",url,details,img,2023);
-               // albumList.add(a);
-                stage =2023;
-                //a=  new Album(id, name,"",url,details,img,stage);
-                albumList.add(a);
-                Log.i("c","Not Found");
-            }
-            else {
-                Log.i("next_page_test", " Found");
-                a=  new Album(id, name,"",url,details,img,2022);
-               // albumList.add(a);
-                //stage  = 2022;
-                //a=  new Album(id, name,"",url,details,img,stage);
-                albumList.add(a);
-            }
+            Log.i("Level 6","Level 6");
+            a=  new Album(id, name,"",url,details,img,2022,"",0);
+            albumList.add(a);
 
 
 

@@ -12,6 +12,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -103,7 +104,7 @@ public class TestSeriesFragment4 extends Fragment {
 
 
         Album a;
-        String next_page_test ="",id ="",name = "", url= "", details = "",img = "",test_type=null;
+        String next_page_test ="",id ="",name = "", url= "", details = "",img = "",test_type="";
         for (int i = 0; i < temp.length(); i++) {
 
             try{
@@ -116,20 +117,23 @@ public class TestSeriesFragment4 extends Fragment {
             details = buffer.getString("type");
              img = buffer.getString("img");
                 img = "http://magnusias.com/"+img;
-               // test_type = buffer.getString("test_type");
-             next_page_test = buffer.getString("next_page_test");
+                next_page_test = buffer.getString("next_page_test");
             Log.i("next_page_test",next_page_test);
+                test_type = buffer.getString("test_type");
+             //   Toast.makeText(getActivity(), test_type, Toast.LENGTH_SHORT).show();
+
             }catch(JSONException e){Log.i("JSONException",e.toString());}
             if (next_page_test.equals("0"))
             {
-               a=  new Album(id, name,"",url,details,img,2021);
+                Log.i("Level 4","Not Found");
+               a=  new Album(id, name,"",url,details,img,2021,test_type,0);
                 albumList.add(a);
 
-                Log.i("c","Not Found");
+                ;
             }
             else {
                 Log.i("next_page_test", " Found");
-                a=  new Album(id, name,"",url,details,img,2020);
+                a=  new Album(id, name,"",url,details,img,2020,test_type,101);
                 albumList.add(a);
             }
 
