@@ -103,7 +103,7 @@ public class TestSeriesFragment5 extends Fragment {
         int stage =0;
         String details = null;
         String img = null;
-        String id="", name="",url="";
+        String id="", name="",url="",test_type="";
         Album a;
         String next_page_test = "";
         for (int i = 0; i < temp.length(); i++) {
@@ -117,6 +117,8 @@ public class TestSeriesFragment5 extends Fragment {
              details =buffer.getString("type");
              img = buffer.getString("img");
              img = "http://magnusias.com/"+img;
+                test_type = buffer.getString("test_type");
+
             }catch(JSONException e){Log.i("JSONException",e.toString());}
            /* if ((img == null) ||(details == null))
             {
@@ -133,8 +135,8 @@ public class TestSeriesFragment5 extends Fragment {
 
             }
             else {
-                Log.i("next_page_test", " Found");
-                a=  new Album(id, name,"",url,details,img,2020,"",0);
+                Log.i("next_page_test Level 5", " Found");
+                a=  new Album(id, name,"",url,details,img,2020,test_type,0);
                // albumList.add(a);
                 //stage  = 2022;
                 //a=  new Album(id, name,"",url,details,img,stage);

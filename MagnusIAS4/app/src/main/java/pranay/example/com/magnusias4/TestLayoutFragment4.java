@@ -102,7 +102,7 @@ public class TestLayoutFragment4 extends android.support.v4.app.Fragment {
             while (cursor.moveToNext()) {
                 //Log.i("Chapter Name",cursor.getString(3));
 //            Album a=  new Album(4,cursor.getString(7),subject_id ,topic_id,cursor.getString(0));
-                Album a = new Album(cursor.getString(7), cursor.getString(0), 4, cursor.getString(6), cursor.getString(9));
+                Album a = new Album(cursor.getString(7), cursor.getString(0), 4, cursor.getString(6), cursor.getString(9),"","");
                 albumList.add(a);
                 Log.i("From Topic Table", cursor.getString(0) + " " + cursor.getString(1) + " " + cursor.getString(5));
             }
@@ -113,9 +113,9 @@ else
 
         // prepareAlbums();
         {
-        //   Log.i("Stage 3",url);
+           Log.i("Stage 4 url","http://magnusias.com/app-api/get-video.php?v_id="+ chapter_id);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "http://magnusias.com/app-api/get-video.php?v_id=" + chapter_id, null,
+                "https://magnusias.com/app-api/get-video.php?v_id=" + chapter_id, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -150,7 +150,7 @@ else
 
 
     private void prepareAlbums(JSONArray temp) throws JSONException {
-        int[] covers = new int[]{
+        /*int[] covers = new int[]{
                 R.drawable.english,
                 R.drawable.gs1,
                 R.drawable.gs2,
@@ -161,7 +161,7 @@ else
                 R.drawable.gs3,
                 R.drawable.gs1,
                 R.drawable.gs2,
-                R.drawable.gs3};
+                R.drawable.gs3};*/
 
 
 
@@ -169,20 +169,21 @@ else
         Log.i("Stage 4",temp.toString());
         for ( i = 0; i < temp.length(); i++) {
           //  Toast.makeText(getActivity(), ""+i, Toast.LENGTH_SHORT).show();
-            //Log.i("Stage 3","Inside Loop");
+            Log.i("Stage 4 Data",temp.getString(i));
             JSONObject buffer = temp.getJSONObject(i);
 
                 String video_name= buffer.getString("cc_heading");
                // String chapter_content = buffer.getString("details");
                 String thumbnail = buffer.getString("img");
                 String id = buffer.getString("id");
-
-                Log.i("Stage 4 ",thumbnail);
+                String video_id = buffer.getString("video_id");
+                String pdfpath = buffer.getString("pdf_document");
+                Log.i("Stage 4 ",pdfpath);
            // Album a=  new Album(chapter_name, "http://magnusias.com/upload/chapter/thumb/"+thumbnail,"",4);
-            Album a = new Album(video_name,id,4,"http://magnusias.com/upload/chapter/thumb/"+thumbnail,chapter_id);
+            Album a = new Album(video_name,id,4,"https://magnusias.com/upload/chapter/thumb/"+thumbnail,chapter_id,video_id,pdfpath);
             albumList.add(a);
 
-            } Log.i("Stage 3","After Loop");
+            } Log.i("Stage 4","After Loop");
       //  Toast.makeText(getActivity(), ""+i, Toast.LENGTH_SHORT).show();
 
 

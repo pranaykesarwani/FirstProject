@@ -57,7 +57,7 @@ public class TestLayoutFragment3 extends android.support.v4.app.Fragment {
         //     initCollapsingToolbar(view);
         Bundle bundle = getArguments();
         String url = bundle.getString("url");
-        //Log.i("Stage 3 URL",url);
+        Log.i("Stage 3 URL",url);
        // Toast.makeText(getActivity(), url, Toast.LENGTH_SHORT).show();
         topic_id = bundle.getString("topic_id");
         subject_id = bundle.getString("subject_id");

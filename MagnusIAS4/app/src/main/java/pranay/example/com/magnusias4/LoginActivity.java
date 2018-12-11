@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +33,8 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
     EditText username;
     EditText password;
-    String android_id,url,pageType,chpater_content_id,chapter_id;
+    String android_id,url,pageType,chpater_content_id,chapter_id,videoID,videoTitle,pdfPath;
+    DatabaseHelper databaseHelper ;
 
     boolean isLogin_result;
     @Override
@@ -45,25 +47,66 @@ public class LoginActivity extends AppCompatActivity {
 
         pageType = intent.getStringExtra("pageType");
         chapter_id = intent.getStringExtra("chapter_id");
+        videoID =  intent.getStringExtra("videoID");
+        videoTitle = intent.getStringExtra("videoTitle");
         chpater_content_id = intent.getStringExtra("chpater_content_id");
+        pdfPath = intent.getStringExtra("pdfPath");
         url = intent.getStringExtra("url");
         username = (EditText)findViewById(R.id.login_username);
         password = (EditText)findViewById(R.id.login_password);
         Button login = (Button)findViewById(R.id.login);
         android_id = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-
-
-
-
-        if (LoginSession.login_status==true)
+        databaseHelper = new DatabaseHelper(getApplicationContext());
+        String db_login_status="";
+        try{
+        Cursor cursor =null;
+        cursor = databaseHelper.getSessionData();
+        Log.i("Login Data",""+cursor.getCount());
+        cursor.moveToFirst();
+        db_login_status = cursor.getString(0);
+        Log.i("Login Data",db_login_status);
+/*        if (db_login_status.equals("true"))
+        {
+            //LoginSession.login_status = true;
+             Log.i("Login inside Condition",db_login_status);
+            //MainActivity mainActivity = new MainActivity();
+          //  mainActivity.btnLogout.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+         //   LoginSession.login_status = false   ;
+         //        MainActivity mainActivity = new MainActivity();
+           // mainActivity.btnLogout.setVisibility(View.VISIBLE);
+            Log.i("Login inside Condition",db_login_status);
+        }*/
+        }catch(Exception e){Log.i("Session",e.toString());}
+        Log.i("db_login_status","Result "+db_login_status);
+        if ((LoginSession.login_status==true)||(db_login_status.equals("true")))
         {
             Intent i = new Intent(this,VideoAcitvity.class);
             if (pageType.equals("video")){
-                i.putExtra("chapter_id",chapter_id);
+               /* i.putExtra("chapter_id",chapter_id);
                 i.putExtra("chpater_content_id",chpater_content_id);
                 startActivity(i);
-                finish();
+                finish();*/
+                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.frame_container_0);
+                LinearLayout loginLayout = (LinearLayout)findViewById(R.id.login_Layout);
+                RelativeLayout relativeLoginLayout = (RelativeLayout) findViewById(R.id.linearLoginPage);
+                relativeLoginLayout.setBackgroundColor(Color.WHITE);
+                loginLayout.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.VISIBLE);
+                VideoFragment videoFragment = new VideoFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("chapter_id",chapter_id);
+                bundle.putString("chpater_content_id",chpater_content_id);
+                bundle.putString("videoID",videoID);
+                bundle.putString("videoTitle",videoTitle);
+                bundle.putString("pdfPath",pdfPath);
+                videoFragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_0,
+                        videoFragment).commit();
 
             }
             if (pageType.equals("exam"))
@@ -115,16 +158,60 @@ public class LoginActivity extends AppCompatActivity {
 
                 //FragmentManager fragmentManager  = getSupportFragmentManager();
                 //  android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                RandomExamTest randomExamTest = new RandomExamTest();
+            //    RandomExamTest randomExamTest = new RandomExamTest();
                 MockTestMains mockTestMains = new MockTestMains();
                 Bundle bundle = new Bundle();
                 bundle.putString("url",url);
-                randomExamTest.setArguments(bundle);
+                Log.i("Main URL in Login",url);
+                mockTestMains.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_0,
                         mockTestMains).commit();
 
             }
 
+
+            if (pageType.equals("offline_Videos"))
+            {
+
+
+                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.frame_container_0);
+                LinearLayout loginLayout = (LinearLayout)findViewById(R.id.login_Layout);
+                RelativeLayout relativeLoginLayout = (RelativeLayout) findViewById(R.id.linearLoginPage);
+                relativeLoginLayout.setBackgroundColor(Color.WHITE);
+
+                loginLayout.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.VISIBLE);
+                OfflineVideoList offlineVideoList = new OfflineVideoList();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_0,
+                        offlineVideoList).commit();
+               /* FragmentManager fragmentManager  = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                OfflineVideoList offlineVideoList = new OfflineVideoList();
+                fragmentTransaction.replace(R.id.frame_container_0,
+                        offlineVideoList).commit();
+*/
+               /* OfflineVideoList offlineVideoList = new OfflineVideoList();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_0,
+                        offlineVideoList).commit();
+             *///   Toast.makeText(this, "Offline_Videos", Toast.LENGTH_SHORT).show();
+            }
+
+
+            if (pageType.equals("offline_Test"))
+            {
+
+
+                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.frame_container_0);
+                LinearLayout loginLayout = (LinearLayout)findViewById(R.id.login_Layout);
+                RelativeLayout relativeLoginLayout = (RelativeLayout) findViewById(R.id.linearLoginPage);
+                relativeLoginLayout.setBackgroundColor(Color.WHITE);
+
+                loginLayout.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.VISIBLE);
+
+                Toast.makeText(this, "Offline Test will be available soon!", Toast.LENGTH_SHORT).show();
+
+            }
 
 
         }
@@ -134,7 +221,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RequestQueue loginqueue = Volley.newRequestQueue(LoginActivity.this);
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "http://magnusias.com/app-api/app-login.php?username=" + username.getText().toString() + "&password=" + password.getText().toString() + "&device_id=" + android_id, null, new Response.Listener<JSONObject>() {
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://magnusias.com/app-api/app-login.php?username=" + username.getText().toString().trim() + "&password=" + password.getText().toString() + "&device_id=" + android_id, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONObject temp = null;
@@ -148,9 +235,10 @@ public class LoginActivity extends AppCompatActivity {
                             if (login_status.equals("success") && (user_type.equals("paid"))) {
                                 try{
 
+                                    databaseHelper.setSession("true");
+
                                      LoginSession.login_status = true;
                                      Log.i("Session.login_status",""+LoginSession.login_status);
-
 
                                       if (pageType.equals("exam")){
                                     intent = new Intent(LoginActivity.this,ExamActivity.class);
@@ -172,11 +260,12 @@ public class LoginActivity extends AppCompatActivity {
 
                                         //FragmentManager fragmentManager  = getSupportFragmentManager();
                                         //  android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                        RandomExamTest randomExamTest = new RandomExamTest();
+                                     //   RandomExamTest randomExamTest = new RandomExamTest();
                                         MockTestMains mockTestMains = new MockTestMains();
                                         Bundle bundle = new Bundle();
                                         bundle.putString("url",url);
-                                        randomExamTest.setArguments(bundle);
+                                        Log.i("Main URL in Login",url);
+                                        mockTestMains.setArguments(bundle);
                                         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_0,
                                                 mockTestMains).commit();
 
@@ -187,13 +276,32 @@ public class LoginActivity extends AppCompatActivity {
                                     {
                                         //Toast.makeText(LoginActivity.this, "Video Page!!! "+ chapter_id+" "+chpater_content_id, Toast.LENGTH_SHORT).show();
                                         //Log.i("Page Type","Video page"+ chapter_id+chpater_content_id);
-                                        intent = new Intent(LoginActivity.this,VideoAcitvity.class);
+
+                                        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.frame_container_0);
+                                        LinearLayout loginLayout = (LinearLayout)findViewById(R.id.login_Layout);
+                                        RelativeLayout relativeLoginLayout = (RelativeLayout) findViewById(R.id.linearLoginPage);
+                                        relativeLoginLayout.setBackgroundColor(Color.WHITE);
+                                        loginLayout.setVisibility(View.GONE);
+                                        linearLayout.setVisibility(View.VISIBLE);
+                                        VideoFragment videoFragment = new VideoFragment();
+
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("chapter_id",chapter_id);
+                                        bundle.putString("chpater_content_id",chpater_content_id);
+                                        bundle.putString("videoID",videoID);
+                                        bundle.putString("videoTitle",videoTitle);
+                                        bundle.putString("pdfPath",pdfPath);
+                                        videoFragment.setArguments(bundle);
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_0,
+                                                videoFragment).commit();
+
+                                       /* intent = new Intent(LoginActivity.this,VideoAcitvity.class);
 //                                        Log.i("Login URL",url);
                                         intent.putExtra("chapter_id",chapter_id);
                                         intent.putExtra("chpater_content_id",chpater_content_id);
                                         startActivity(intent);
                                         finish();
-
+*/
 
                                         //videoFragment();
                                         /*FragmentManager fragmentManager  = getSupportFragmentManager();
@@ -211,6 +319,47 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                     }
+
+                                    if (pageType.equals("offline_Videos"))
+                                    {   LinearLayout linearLayout = (LinearLayout)findViewById(R.id.frame_container_0);
+                                        LinearLayout loginLayout = (LinearLayout)findViewById(R.id.login_Layout);
+                                        RelativeLayout relativeLoginLayout = (RelativeLayout) findViewById(R.id.linearLoginPage);
+                                        relativeLoginLayout.setBackgroundColor(Color.WHITE);
+
+                                        loginLayout.setVisibility(View.GONE);
+                                        linearLayout.setVisibility(View.VISIBLE);
+                                        OfflineVideoList offlineVideoList = new OfflineVideoList();
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_0,
+                                                offlineVideoList).commit();
+
+
+
+                                      /*  FragmentManager fragmentManager  = getSupportFragmentManager();
+                                          android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                        OfflineVideoList offlineVideoList = new OfflineVideoList();
+                                        fragmentTransaction.replace(R.id.frame_container_0,
+                                                offlineVideoList).commit();
+*/
+
+                                       // Toast.makeText(LoginActivity.this, "Offline_Videos", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    if (pageType.equals("offline_Test"))
+                                    {
+
+
+                                        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.frame_container_0);
+                                        LinearLayout loginLayout = (LinearLayout)findViewById(R.id.login_Layout);
+                                        RelativeLayout relativeLoginLayout = (RelativeLayout) findViewById(R.id.linearLoginPage);
+                                        relativeLoginLayout.setBackgroundColor(Color.WHITE);
+
+                                        loginLayout.setVisibility(View.GONE);
+                                        linearLayout.setVisibility(View.VISIBLE);
+
+                                        Toast.makeText(LoginActivity.this, "Offline Test will be available soon!", Toast.LENGTH_SHORT).show();
+
+                                    }
+
                                     if (pageType.equals("random"))
                                     {
                                         //Toast.makeText(this, "Please wait...", Toast.LENGTH_SHORT).show();
@@ -239,6 +388,8 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
 */
                                     }
+
+
 
 
                                 }catch(Exception e){

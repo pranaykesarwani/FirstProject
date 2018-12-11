@@ -112,22 +112,23 @@ public class MockTestSeriesFragment extends Fragment {
 
     private void prepareAlbums(JSONArray temp) throws JSONException {
 
-
+        String id ="",name="",access_type="",type="",img="",url="";
 
         for (int i = 0; i < temp.length(); i++) {
+            try{
             JSONObject buffer = temp.getJSONObject(i);
-            String id= buffer.getString("id");
-            String name= buffer.getString("name");
-            String access_type = buffer.getString("access_type");
-            String type = buffer.getString("type");
-            String img = buffer.getString("img");
-            String url = buffer.getString("url");
-
+             id= buffer.getString("id");
+             name= buffer.getString("name");
+             access_type = buffer.getString("access_type");
+             type = buffer.getString("type");
+             img = buffer.getString("img");
+             url = buffer.getString("url");
+            }catch(Exception e){}
 
             //  Log.i("Image Path",img_path);
-            Album a=  new Album(2020,id, name,access_type,type,img,url);
+            Album a;//=  new Album(2020,id, name,access_type,type,img,url);
             a=  new Album(id, name,"",url,"",img,2020,"",stage2);
-
+            Log.i("stage 2"," "+stage2);
             albumList.add(a);
 
         }

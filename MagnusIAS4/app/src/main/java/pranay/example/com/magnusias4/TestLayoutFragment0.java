@@ -68,7 +68,7 @@ public class TestLayoutFragment0 extends android.support.v4.app.Fragment {
         Log.i("Subject Categ","1");
         databaseHelper = new DatabaseHelper(getActivity());
 
-                initCollapsingToolbar(view);
+//                initCollapsingToolbar(view);
         Display display = getActivity().getWindowManager(). getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
@@ -79,7 +79,7 @@ public class TestLayoutFragment0 extends android.support.v4.app.Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-
+       // Toast.makeText(getActivity(), "Height n Width "+""+dpHeight +" "+dpWidth, Toast.LENGTH_SHORT).show();
         albumList = new ArrayList<>();
         adapter = new AlbumsAdapter(getActivity(), albumList);
         RecyclerView.LayoutManager mLayoutManager =null;
@@ -123,7 +123,7 @@ public class TestLayoutFragment0 extends android.support.v4.app.Fragment {
      //  final Album[] a = new Album[1000];
         {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                    "http://magnusias.com/app-api/get-paper.php", null,
+                    "https://magnusias.com/app-api/get-paper.php", null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {

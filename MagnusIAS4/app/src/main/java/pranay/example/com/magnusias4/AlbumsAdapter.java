@@ -12,6 +12,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,14 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
- * Created by Ravi Tamada on 18/05/16.
+ * Created by Pranay on 18/05/16.
  */
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<Album> albumList;
-    FragmentTransaction fragmentManager;
+   // FragmentTransaction fragmentManager;
+    String  URL_0;
 
 
 
@@ -46,7 +48,9 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             title = (TextView) view.findViewById(R.id.title);
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-           // overflow = (ImageView) view.findViewById(R.id.overflow);
+            overflow = (ImageView) view.findViewById(R.id.overflow);
+         //   overflow.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -55,6 +59,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     public AlbumsAdapter(Context mContext, List<Album> albumList) {
         this.mContext = mContext;
         this.albumList = albumList;
+
     }
 
     @Override
@@ -81,6 +86,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         final String sub_menu = album.getSub_menu();
         final String test_type = album.getTest_type();
         final int stage2 = album.getStage2();
+        final String video_ID = album.getVideoID();
+        final String pdfPath = album.getPdfPath();
+
+
 
         if (imagePath!=null) {
             Uri path = Uri.parse(imagePath);
@@ -97,6 +106,22 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
       //  Picasso.get().load(album.getImg_path()).into();
 
         // holder.count.setText(album.getNumOfSongs() + " songs");
+
+        if (stage == 2020)
+        {
+            holder.overflow.setVisibility(View.VISIBLE);
+            Log.i("Test -URL",url);
+
+        }
+        holder.overflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupMenu(holder.overflow);
+                URL_0 = url;
+
+               // Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +154,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 {
                     MainActivity mainActivity = (MainActivity)mContext;
 
-                    mainActivity.checkLogin(url,"video",chpater_content_id,chapter_id);
+                    mainActivity.checkLogin(url,"video",chpater_content_id,chapter_id,video_ID,subject_name,pdfPath);
                     //mainActivity.getVideoList(chpater_content_id,chapter_id);
                 }
                 if(stage==1000)
@@ -193,29 +218,37 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 if(stage==2020)
                 {
                     MainActivity mainActivity = (MainActivity)mContext;
-                           Log.i("M Id in AlbumAdpter",id);
+
+                           Log.i("Mains Test","1"+id);
                     /*if (id.equals("58")){
                         Toast.makeText(mainActivity, "Wait.....", Toast.LENGTH_SHORT).show();
                     }*/
+                    Log.i("test_type",test_type);
                     if (test_type.equals("random"))
                     {
+                        Log.i("Random Test URL",url);
                        // mainActivity.getRandomTest(url);
-                        mainActivity.checkLogin(url,"random",null,null);
+                        mainActivity.checkLogin(url,"random",null,null,"","","");
+                        Log.i("Mains Test","2");
                         //Toast.makeText(mainActivity, "Random", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
                         if (stage2 == 58)
                         {
-                            mainActivity.checkLogin(url,"mock_exam",null,null);
+                            mainActivity.checkLogin(url,"mock_exam",null,null,"","","");
+                           Log.i("Mains Test","3");
+                            // Toast.makeText(mContext, "1", Toast.LENGTH_SHORT).show();
                         }
                         else
-                         mainActivity.checkLogin(url,"exam",null,null);
+                         mainActivity.checkLogin(url,"exam",null,null,"","","");
+                      //  Log.i("Mains Test","4");
                      /*   if (result==true) {
                             mainActivity.getExamTest(url);
                          Log.i("Result",""+result);
                         }*/
                     }
+
                     //Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
                     Log.i("url",url);
 
@@ -233,7 +266,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 {
                     MainActivity mainActivity = (MainActivity)mContext;
 
-                    mainActivity.checkLogin(url,"exam",null,null);
+                    mainActivity.checkLogin(url,"exam",null,null,"","","");
                  //    Toast.makeText(mContext, ""+stage2, Toast.LENGTH_SHORT).show();
                     Log.i("stage",""+stage);
 
@@ -304,7 +337,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 if(stage==4)
                 {
                    // mainActivity.getVideoList(chpater_content_id,chapter_id);
-                    mainActivity.checkLogin(url,"video",chpater_content_id,chapter_id);
+                    mainActivity.checkLogin(url,"video",chpater_content_id,chapter_id,"",subject_name,pdfPath);
 
                     // Toast.makeText(mContext, "Videos will be available shortly!", Toast.LENGTH_SHORT).show();
                 }
@@ -338,34 +371,82 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                    // Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
 
                 }
-                if(stage==2020)
+                if(stage==2002)
                 {
                     MainActivity mainActivity = (MainActivity)mContext;
 
+                    mainActivity.getTestSeriesSubjectListLevel2(url);
+                    // Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                    Log.i("url",url);
 
+                }
+                if(stage==2020)
+                {/*********************************************************************************************************************/
+
+
+                    MainActivity mainActivity = (MainActivity)mContext;
+
+                    Log.i("Mains Test","1"+id);
+                    /*if (id.equals("58")){
+                        Toast.makeText(mainActivity, "Wait.....", Toast.LENGTH_SHORT).show();
+                    }*/
+                    Log.i("test_type",test_type);
                     if (test_type.equals("random"))
                     {
-                     //   mainActivity.getRandomTest(url);
-                        mainActivity.checkLogin(url,"random",null,null);
+                        Log.i("Random Test URL",url);
+                        // mainActivity.getRandomTest(url);
+                        mainActivity.checkLogin(url,"random",null,null,"","","");
+                        Log.i("Mains Test","2");
                         //Toast.makeText(mainActivity, "Random", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
                         if (stage2 == 58)
                         {
-                            mainActivity.checkLogin(url,"mock_exam",null,null);
+                            mainActivity.checkLogin(url,"mock_exam",null,null,"","","");
+                            Log.i("Mains Test","3");
+                            // Toast.makeText(mContext, "1", Toast.LENGTH_SHORT).show();
                         }
                         else
-                            mainActivity.checkLogin(url,"exam",null,null);
-
+                            mainActivity.checkLogin(url,"exam",null,null,"","","");
+                        //  Log.i("Mains Test","4");
                      /*   if (result==true) {
                             mainActivity.getExamTest(url);
                          Log.i("Result",""+result);
                         }*/
                     }
+
                     //Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
                     Log.i("url",url);
 
+
+                   /* MainActivity mainActivity = (MainActivity)mContext;
+
+                    Log.i("Eaxm URl",url);
+                    if (test_type.equals("Chapter wise test"))
+                    {
+                     //   mainActivity.getRandomTest(url);
+                        mainActivity.checkLogin(url,"exam",null,null,"","");
+                        //Toast.makeText(mainActivity, "Random", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        if (stage2 == 58)
+                        {
+                            mainActivity.checkLogin(url,"mock_exam",null,null,"","");
+                        }
+                        else
+                            mainActivity.checkLogin(url,"random",null,null,"","");
+
+                     *//*   if (result==true) {
+                            mainActivity.getExamTest(url);
+                         Log.i("Result",""+result);
+                        }*//*
+                    }
+                    //Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+                    Log.i("url",url);
+                   */
+                    /*********************************************************************************************************************************/
                 }
                 if(stage==2021)
                 {
@@ -380,7 +461,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 {
                     MainActivity mainActivity = (MainActivity)mContext;
 
-                    mainActivity.checkLogin(url,"exam",null,null);
+                    mainActivity.checkLogin(url,"exam",null,null,"","","");
                  //   Toast.makeText(mContext, ""+stage, Toast.LENGTH_SHORT).show();
                     Log.i("stage",""+stage);
 
@@ -403,6 +484,13 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                     Log.i("//stage",""+stage);
 
                 }
+                if (stage==5000)
+                {
+                    MainActivity mainActivity = (MainActivity)mContext;
+                    mainActivity.getTeamMember(url);
+
+                   // Toast.makeText(mContext, "Our Team!!!", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
@@ -423,38 +511,43 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     /**
      * Showing popup menu when tapping on 3 dots
      */
- /*   private void showPopupMenu(View view) {
+    private void showPopupMenu(View view) {
         // inflate menu
         PopupMenu popup = new PopupMenu(mContext, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_album, popup.getMenu());
+        inflater.inflate(R.menu.offline_test_options, popup.getMenu());
         popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
         popup.show();
-    }*/
+    }
 
     /**
      * Click listener for popup menu items
      */
-  /*  class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
+    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
         public MyMenuItemClickListener() {
         }
 
-        *//*@Override
-      public boolean onMenuItemClick(MenuItem menuItem) {
-          switch (menuItem.getItemId()) {
-                case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
+        //*@Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_save_test_offline:
+
+                    MainActivity mainActivity = (MainActivity)mContext;
+                    mainActivity.downloadOfflineTestData(URL_0);
+                    Toast.makeText(mContext, "Test Downloaded", Toast.LENGTH_SHORT).show();
+                    Log.i("Exam_PDF URL",URL_0);
                     return true;
-                case R.id.action_play_next:
+
+              /*  case R.id.action_play_next:
                     Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
-                    return true;
+                    return true;*/
                 default:
             }
             return false;
-        }*//*
+        }/*
     }*/
-
+    }
     @Override
     public int getItemCount() {
         return albumList.size();

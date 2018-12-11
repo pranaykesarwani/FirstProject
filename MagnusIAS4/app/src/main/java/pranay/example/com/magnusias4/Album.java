@@ -5,8 +5,12 @@ package pranay.example.com.magnusias4;
  */
 public class Album {
     private String name,details,subject_id,topic_id,chapter_id,videoID,pdfDoc,email,mobile,hobbies,qualification,skills,post;
-   private String chpater_content_id,sub_menu,main_menu_id,heading,access_type,type,test_type;
+   private String chpater_content_id,sub_menu,main_menu_id,heading,access_type,type,test_type,pdfPath;
 private int stage2;
+
+    public String getPdfPath() {
+        return pdfPath;
+    }
 
     public int getStage2() {
         return stage2;
@@ -189,13 +193,15 @@ private int stage2;
         this.img_path = img_path;
     }
 
-    public Album(String name,String chpater_content_id,int stage,String img_path, String chapter_id){
+    public Album(String name,String chpater_content_id,int stage,String img_path, String chapter_id,String videoID,String pdfPath){
         this.name = name;
         this.stage = stage;
         this.img_path = img_path;
         this.chapter_id = chapter_id;
         this.chapter_id = chapter_id;
         this.chpater_content_id = chpater_content_id;
+        this.videoID = videoID;
+        this.pdfPath = pdfPath;
 
     }
 
@@ -238,6 +244,7 @@ private int stage2;
         this.url = url;
         this.stage = stage;
         this.test_type = test_type;
+        this.stage2 = stage2;
     }
     public Album(String id,String name,String heading,String url,String details ,String img_path,int stage)
     {

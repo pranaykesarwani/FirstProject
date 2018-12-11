@@ -163,30 +163,176 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     }
-    public void createLoginSession(){
-        SQLiteDatabase db;
+    void createOfflineTestDataTable(){
+        try{
 
-        db = this.getWritableDatabase();
+            SQLiteDatabase db;
+            db = this.getWritableDatabase();
+              db.execSQL("drop table if exists offline_test_data");
+            db.execSQL("CREATE TABLE `offline_test_data` (\n" +
+                    "  `id` varchar(255) ,\n" +
+                    "  `name` varchar(255) ,\n" +
+                    "  `test_type` varchar(255) ,\n" +
+                    "  `total_question` varchar(3), \n" +
+                    "  `marks_correct_ans` varchar(255) ,\n" +
+                    "  `negative_mark` varchar(255) ,\n" +
+                    "  `full_marks` varchar(255) ,\n" +
+                    "  `duration` varchar(255) ,\n" +
+                    "  `unit` varchar(255) ,\n" +
+                    "  `level` varchar(255) ,\n" +
+                    "  `image` varchar(255) ,\n" +
+                    "  `general_ins` varchar(255) ,\n" +
+                    "  `question_ins` varchar(255) ,\n" +
+                    "  `ques_pdf` varchar(255) ,\n" +
+                    "  `pdf_offline_path` varchar(255) ,\n" +
+                    "  `attr2` varchar(255) \n" +
 
-        db.execSQL("drop table if exists login_session");
-        db.execSQL("CREATE TABLE `login_session` (\n" +
-                "  `id`  varchar(255) PRIMARY KEY  ,\n" +
-                "  `status` varchar(255)    \n" +
-                ")");
+                    ")");
 
+        }catch (Exception e){Log.i("offlineTestDatatable","Exists");}
     }
-    public void setSession(String id,String status){
+
+    public void setOfflineTestData(String id, String name, String test_type, String total_question, String marks_correct_ans, String negative_mark, String full_marks,
+                                   String duration, String unit, String level, String image, String general_ins, String question_ins, String ques_pdf, String attr2, String pdf_offline_path) {
+
         SQLiteDatabase db;
         db = this.getWritableDatabase();
         ContentValues contentValues  = new ContentValues();
-        contentValues.put("id",id);
+        contentValues.put("name",name);
+        contentValues.put("test_type",test_type);
+        contentValues.put("total_question",total_question);
+        contentValues.put("marks_correct_ans",marks_correct_ans);
+        contentValues.put("negative_mark",negative_mark);
+        contentValues.put("full_marks",full_marks);
+        contentValues.put("duration",duration);
+        contentValues.put("unit",unit);
+        contentValues.put("level",level);
+        contentValues.put("image",image);
+        contentValues.put("general_ins",general_ins);
+        contentValues.put("question_ins",question_ins);
+        contentValues.put("ques_pdf",ques_pdf);
+        contentValues.put("attr2",attr2);
+        contentValues.put("pdf_offline_path",pdf_offline_path);
+       contentValues.put("id",id);
+
+        long result = db.insert("offline_test_data",null,contentValues);
+        if (result== -1) {
+            Log.i("updateOVT Result", "Row updation failed!!!");
+        }
+        else{
+            Log.i(" UpdateOVT Session","Offline Test Row inserted Successfully!");
+        }
+    }
+
+
+    void createOfflineVideoTable(){
+        try{
+        SQLiteDatabase db;
+        db = this.getWritableDatabase();
+          //  db.execSQL("drop table if exists offline_video_list");
+        db.execSQL("CREATE TABLE `offline_video_list` (\n" +
+                "  `videoID` varchar(255) ,\n" +
+                "  `offline_video_path` varchar(255) ,\n" +
+                "  `offline_video_title` varchar(255) ,\n" +
+                "  `offline_pdf_path` varchar(255) ,\n" +
+                "  `offline_availability` varchar(3) \n" +
+                ")");
+        }catch(Exception e){Log.i("OVT","Exists");}
+    }
+
+
+    void insertOVT(String videoID,String offline_availability,String offline_video_path, String offline_video_title,String offline_pdf_path){
+        SQLiteDatabase db;
+        db = this.getWritableDatabase();
+        ContentValues contentValues  = new ContentValues();
+        contentValues.put("videoID",videoID);
+        contentValues.put("offline_availability",offline_availability);
+        contentValues.put("offline_video_title",offline_video_title);
+        contentValues.put("offline_video_path",offline_video_path);
+        contentValues.put("offline_pdf_path",offline_pdf_path);
+
+        long result = db.insert("offline_video_list",null,contentValues);
+        if (result== -1) {
+            Log.i("updateOVT Result", "Row updation failed!!!");
+        }
+        else{
+            Log.i(" UpdateOVT Session","Video Row inserted Successfully!");
+        }
+
+    }
+    void removeVideo(String videoID)
+    { SQLiteDatabase db;
+        db = this.getWritableDatabase();
+        db.execSQL("delete from offline_video_list  where videoID="+videoID);
+
+
+
+    }
+
+    Cursor getOVTData()
+
+    {
+
+        SQLiteDatabase db;
+
+        db = this.getReadableDatabase();
+
+
+        Cursor cursor  = db.rawQuery("select * from offline_video_list " ,null);
+        Log.i("Video row count",""+cursor.getCount());
+
+        return cursor;
+
+    }
+    Cursor getOVTData(String videoID){
+
+        Cursor cursor =null;
+try{
+        SQLiteDatabase db;
+
+        db = this.getReadableDatabase();
+
+
+             cursor  = db.rawQuery("select offline_video_path,offline_pdf_path from offline_video_list where videoID = "+videoID ,null);
+
+
+        Log.i("Video row count",""+cursor.getCount());
+    return cursor;
+    }catch(Exception e){Log.i("OVT Exception",e.toString());}
+
+    return cursor;
+    }
+
+
+    public void createLoginSession(){
+        try{
+        SQLiteDatabase db;
+
+        db = this.getWritableDatabase();
+
+   //     db.execSQL("drop table if exists login_session");
+        db.execSQL("CREATE TABLE `login_session` (\n" +
+                "  `id`  varchar(255)  ,\n" +
+                "  `status` varchar(255)    \n" +
+                ")");
+
+        }catch (Exception e){
+            Log.i("login_session","exists");
+        }
+        }
+    public void setSession(String status){
+        SQLiteDatabase db;
+        db = this.getWritableDatabase();
+        db.execSQL("delete from login_session");
+        ContentValues contentValues  = new ContentValues();
+        contentValues.put("id","001");
         contentValues.put("status",status);
         long result = db.insert("login_session",null,contentValues);
         if (result== -1) {
-            Log.i("login_session Result", "Row updation failed!!!");
+            Log.i("Login Session", "Row updation failed!!!");
         }
         else{
-            Log.i(" Login Session","Session updated Successfully!");
+            Log.i("Login Session","Session updated Successfully!");
         }
     }
 
@@ -583,7 +729,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
 
     }
-
 
 
 }

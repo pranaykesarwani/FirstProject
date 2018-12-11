@@ -68,7 +68,7 @@ public class TestSeriesFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "http://magnusias.com/app-api/get-test-series.php", null,
+                "https://magnusias.com/app-api/get-test-series.php", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

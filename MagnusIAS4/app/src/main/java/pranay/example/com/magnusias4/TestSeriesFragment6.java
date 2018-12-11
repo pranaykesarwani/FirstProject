@@ -69,6 +69,7 @@ public class TestSeriesFragment6 extends Fragment {
         //recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        Log.i("Chapter Test  URL",url);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 url, null,
                 new Response.Listener<JSONObject>() {
@@ -76,6 +77,7 @@ public class TestSeriesFragment6 extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray dataArray = response.getJSONArray("subject-list");
+
                             Log.i("Temp", "" + response.toString());
 //                          ;
                             prepareAlbums(dataArray);
@@ -111,15 +113,26 @@ public class TestSeriesFragment6 extends Fragment {
             JSONObject buffer = temp.getJSONObject(i);
              id= buffer.getString("id");
               name= buffer.getString("name");
-            next_page_test = buffer.getString("next_page_test");
+         //   next_page_test = buffer.getString("next_page_test");
             Log.i("next_page_test",next_page_test);
              url = buffer.getString("url");
              details =buffer.getString("type");
              img = buffer.getString("img");
-             img = "http://magnusias.com/"+img;
+           //  img = "http://magnusias.com/"+img;
+              /*  if ((details==null)||details != "Chapter wise test")
+                {
+                    details = "random";
+                    Log.i("details",details);
+                }
+                else
+                {
+                    details = "Chapter wise test";
+                    Log.i("details",details);
+                }*/
+                Log.i("details",details);
             }catch(JSONException e){Log.i("JSONException",e.toString());}
-            Log.i("Level 6","Level 6");
-            a=  new Album(id, name,"",url,details,img,2022,"",0);
+            Log.i("Level 6","Level 6 "+url);
+            a=  new Album(id, name,"",url,details,img,2020,"exam",0);
             albumList.add(a);
 
 

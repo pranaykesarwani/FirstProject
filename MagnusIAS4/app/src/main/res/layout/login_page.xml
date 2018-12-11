@@ -39,7 +39,8 @@
             android:layout_height="wrap_content"
             android:hint="Username"
             android:inputType="textEmailAddress"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:textColor="#FFFF"/>
 
         <EditText
             android:id="@+id/login_password"
@@ -48,6 +49,7 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:layout_marginTop="20dp"
+            android:textColor="#FFFF"
             />
         <Button
             android:id="@+id/login"

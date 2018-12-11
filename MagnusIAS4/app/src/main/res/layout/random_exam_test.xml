@@ -13,7 +13,8 @@
             android:textStyle="bold"
             android:text="Random Test"
             android:layout_centerHorizontal="true"
-            android:layout_margin="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"/>
     </RelativeLayout>
 
 <ListView

@@ -40,6 +40,7 @@ public class TestSeriesFragment4 extends Fragment {
 
         Bundle bundle = getArguments();
         String url = bundle.getString("url");
+        Log.i("URL",url);
         View view = inflater.inflate(R.layout.content_main, container, false);
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -129,10 +130,9 @@ public class TestSeriesFragment4 extends Fragment {
                a=  new Album(id, name,"",url,details,img,2021,test_type,0);
                 albumList.add(a);
 
-                ;
             }
             else {
-                Log.i("next_page_test", " Found");
+                Log.i("next_page_test Level 4", " Found");
                 a=  new Album(id, name,"",url,details,img,2020,test_type,101);
                 albumList.add(a);
             }

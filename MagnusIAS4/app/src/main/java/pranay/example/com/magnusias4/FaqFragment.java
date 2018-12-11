@@ -211,7 +211,7 @@ public class FaqFragment extends Fragment {
                     for (int i=0;i<chapterArray.length();i++) {
                         JSONObject temp = chapterArray.getJSONObject(i);
                        /* String cc_heading = temp.getString("cc_heading");
-                        Log.i("cc_heading",cc_heading);
+                            Log.i("cc_heading",cc_heading);
                         String id = temp.getString("id");
                         String img = temp.getString("img");
                         String access_type = temp.getString("access_type");
@@ -249,7 +249,7 @@ public class FaqFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                VideoListDataItem currentItem = dataFeed.get(position);
+            //    VideoListDataItem currentItem = dataFeed.get(position);
 
 
               //  Toast.makeText(getActivity(), "Videos will be available shortly!", Toast.LENGTH_SHORT).show();
@@ -289,7 +289,7 @@ public class FaqFragment extends Fragment {
             //  VideoView videoView = (VideoView)convertView.findViewById(R.id.chapterVideoList);
 
             question.setText(currentItem.getCc_heading());
-            answer.setText(Html.fromHtml(currentItem.getVideo_id(),Html.FROM_HTML_MODE_COMPACT));
+            answer.setText(Html.fromHtml(currentItem.getVideo_id()));
             //  Log.i("Answer",currentItem.getVideo_id());
             // imageView.setImageResource(currentItem.getImageId());
             // Toast.makeText(MainActivity.this,currentItem.getImageURL().toString(),Toast.LENGTH_SHORT).show();

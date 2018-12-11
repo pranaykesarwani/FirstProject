@@ -114,28 +114,46 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp">
-
-        <EditText
-            android:id="@+id/answer"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:capitalize="characters"
-            android:hint="Answer"
-            android:textAllCaps="true"
-            android:textSize="@dimen/random_test_text_size" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Verify Answer"
-            android:id="@+id/verify_answer"/>
+            android:layout_margin="20dp"
+            android:layout_centerHorizontal="true">
 
-    </LinearLayout>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/answer"
+                android:layout_margin="10dp"
+                android:hint="Answer"
+                android:textSize="@dimen/random_test_text_size"
+                />
+
+           <!-- <EditText
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:hint="Answer"
+                android:textAllCaps="true"
+                 />-->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Verify Answer"
+                android:id="@+id/verify_answer"/>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
 
 
     <LinearLayout
@@ -182,6 +200,54 @@
 
 
     </LinearLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/relativeLayout_Description"
+    android:visibility="gone">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Description Video"
+        android:layout_marginBottom="10dp"
+        android:textSize="@dimen/random_test_text_size"
+        android:textStyle="bold"/>
+</RelativeLayout>
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:id="@+id/hint_video_webview"
+        android:visibility="gone"></WebView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/hinPDFLayout"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Description Pdf"
+            android:layout_marginBottom="10dp"
+            android:textSize="@dimen/random_test_text_size"
+            android:textStyle="bold"/>
+    </RelativeLayout><!--
+    <com.github.barteksc.pdfviewer.PDFView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/pdf_hint"
+    android:visibility="gone">
+
+</com.github.barteksc.pdfviewer.PDFView>-->
+
+    <com.joanzapata.pdfview.PDFView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:id="@+id/pdf_hint"
+        android:visibility="gone"/>
 
 
 </LinearLayout>

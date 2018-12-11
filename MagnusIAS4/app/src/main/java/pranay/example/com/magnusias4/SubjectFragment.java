@@ -119,7 +119,7 @@ public class SubjectFragment extends Fragment {
         //  final Album[] a = new Album[1000];
         {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                    "http://magnusias.com/app-api/get-paper.php", null,
+                    "https://magnusias.com/app-api/get-paper.php", null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {

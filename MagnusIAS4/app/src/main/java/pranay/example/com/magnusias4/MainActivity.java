@@ -65,8 +65,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity //implements HomeFragment.Se
         this.login_result_status = login_result_status;
     }
 
-    Button btnTopMenu,btnSubMenu,btnSubMenu2,btnLogout,btnOurResources,btnContact,btnSampleClasses,btnPricing,btnBibliography,btnNotice,btnarticle,btnVideo,btnImage,btnTestSeries,btnSubjects,btnfaq,btnmission,btnMethodology,btnDirector,btnOurTeam,home,about,subject,btntest_series,btnresources,btngallery,btnresource,btnref, btnAboutUs;
+    Button btnTopMenu,btnSubMenu,btnSubMenu2,btnOfflineTest,btnOfflineVideo,btnLogout,btnOurResources,btnContact,btnSampleClasses,btnPricing,btnBibliography,btnNotice,btnarticle,btnVideo,btnImage,btnTestSeries,btnSubjects,btnfaq,btnmission,btnMethodology,btnDirector,btnOurTeam,home,about,subject,btntest_series,btnresources,btngallery,btnresource,btnref, btnAboutUs;
     boolean topMenuFlag=false;
     boolean subMenuFlag=false;
     boolean subMenuFlag1  = false;
@@ -136,6 +138,7 @@ public class MainActivity extends AppCompatActivity //implements HomeFragment.Se
 
 
 
+
             Display display = getWindowManager(). getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
@@ -148,15 +151,17 @@ public class MainActivity extends AppCompatActivity //implements HomeFragment.Se
       //  Toast.makeText(this, "Width "+ width, Toast.LENGTH_SHORT).show();
 
         Log.i("Main.login_status",""+LoginSession.login_status);
-
+        databaseHelper.createOfflineVideoTable();
+        databaseHelper.createOfflineTestDataTable();
+        databaseHelper.createLoginSession();
         Button serverSync = (Button)findViewById(R.id.serverSync);
 
 serverSync.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
 
-      //  syncFromServer();
 
+      //  syncFromServer()
         //MyAsyncTasks runner = new MyAsyncTasks();
       //  String sleepTime = time.getText().toString();
       //  runner.execute();
@@ -275,7 +280,48 @@ serverSync.setOnClickListener(new View.OnClickListener() {
         btnOurResources = (Button)findViewById(R.id.our_resources);
         btnLogout = (Button)findViewById(R.id.btnLogOut);
         title_bar = (TextView)findViewById(R.id.toolbar_title);
+        btnOfflineVideo = findViewById(R.id.btnOfflineVideo);
+        btnOfflineTest = findViewById(R.id.btnOfflineTest);
 
+        try{
+        Cursor cursor =null;
+        cursor = databaseHelper.getSessionData();
+        Log.i("Login Data in Main",""+cursor.getCount());
+        cursor.moveToFirst();
+        String db_login_status = cursor.getString(0);
+        Log.i("Login Data in Main",db_login_status);
+        if (db_login_status.equals("true"))
+        {
+            LoginSession.login_status = true;
+            // Log.i("Login inside Condition",db_login_status);
+            btnLogout.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            LoginSession.login_status = false   ;
+         //   btnLogout.setVisibility(View.GONE);
+        }
+        }catch (Exception e){
+            Log.i("Session in Main",e.toString());
+        }
+
+        btnOfflineTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                intent.putExtra("pageType","offline_Test");
+                startActivity(intent);
+            }
+        });
+
+        btnOfflineVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                intent.putExtra("pageType","offline_Videos");
+                startActivity(intent);
+            }
+        });
 
 try {
 
@@ -287,6 +333,7 @@ try {
        if (LoginSession.login_status==true)
        {
            btnLogout.setVisibility(View.VISIBLE);
+
        }
 
 
@@ -299,6 +346,7 @@ try {
                 LoginSession.login_status = false;
 
                 btnLogout.setVisibility(View.GONE);
+                databaseHelper.setSession("false");
 
                 Toast.makeText(context, "Logging out...", Toast.LENGTH_SHORT).show();
             }
@@ -1010,7 +1058,7 @@ public void getChapterList(String ChapterURL ){
     }
    //public void getExamTest(String name, String total_question,String marks_correct_ans,String negative_mark,String duration,String ques_pdf)
 
-   public void checkLogin(String url,String pageType,String chpater_content_id, String chapter_id){
+   public void checkLogin(String url,String pageType,String chpater_content_id, String chapter_id,String videoID, String videoTitle,String pdfPath){
        //FragmentManager fragmentManager  = getSupportFragmentManager();
        //android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
        //LoginFragment loginFragment = new LoginFragment();
@@ -1038,11 +1086,32 @@ public void getChapterList(String ChapterURL ){
        intent.putExtra("url",url);
        intent.putExtra("chpater_content_id",chpater_content_id);
        intent.putExtra("chapter_id",chapter_id);
+       intent.putExtra("videoID",videoID);
+       intent.putExtra("videoTitle",videoTitle);
+       intent.putExtra("pdfPath",pdfPath);
        startActivity(intent);
 
 
 
 }
+
+public void getTeamMember( String url){
+
+    FragmentManager fragmentManager  = getSupportFragmentManager();
+    android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    TestSeriesFragment5 testSeriesFragment5 = new TestSeriesFragment5();
+
+    Bundle bundle = new Bundle();
+    bundle.putString("url",url);
+
+    testSeriesFragment5.setArguments(bundle);
+    Log.i("url",url);
+
+    fragmentTransaction.replace(R.id.frame_container,testSeriesFragment5).addToBackStack(null)
+            .commit();
+
+}
+
     public void getExamTest(){
        String  url= "http://magnusias.com/app-api/subject-wise-objective-test.php?subject_test_id=5";
         Intent intent = new Intent(this,ExamActivity.class);
@@ -1432,7 +1501,7 @@ public void syncFromServer()
             }, new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
-            Log.i("Director Desk Error",error.toString());
+            Log.i("Mission  Error",error.toString());
 
         }
     });
@@ -1893,9 +1962,186 @@ public void syncFromServer()
 
 }
 
+    public void downloadOfflineTestData(String url_0) {
+
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+
+        JsonObjectRequest jsonObjectRequestOfflineTestData = new JsonObjectRequest(Request.Method.GET,
+                url_0, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray temp = response.getJSONArray("mock_test_pt");
+                            Log.i("Temp", "" +response.toString());
+//                            counter =dataArray.length();
+                            //prepareAlbums(dataArray);
 
 
-    public class MyAsyncTasks extends AsyncTask<String, String, String> {
+
+                            for (int i = 0; i < temp.length(); i++) {
+                                JSONObject buffer = temp.getJSONObject(i);
+                              String id = buffer.getString("id");
+                                String name = buffer.getString("name");
+                                String test_type = buffer.getString("test_type");
+                                String total_question = buffer.getString("total_question");
+                                String marks_correct_ans = buffer.getString("marks_correct_ans");
+                                String negative_mark = buffer.getString("negative_mark");
+                                String full_marks = buffer.getString("full_marks");
+                                String duration = buffer.getString("duration");
+                                String unit = buffer.getString("unit");
+                                String level = buffer.getString("level");
+                                String image = buffer.getString("image");
+                                String general_ins = buffer.getString("general_ins");
+                                String question_ins = buffer.getString("question_ins");
+                                String ques_pdf = buffer.getString("ques_pdf");
+                                String attr2 = buffer.getString("attr2");
+                                String pdf_offline_path = downloadPDF(ques_pdf);
+                                id = extractFilenameFromPath(pdf_offline_path );
+
+                                 databaseHelper.setOfflineTestData(id,name,test_type,total_question,marks_correct_ans,negative_mark,full_marks,duration,unit,level,image,general_ins,question_ins,ques_pdf,attr2,pdf_offline_path);
+                            }
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("Mission  Error",error.toString());
+
+            }
+        });
+        jsonObjectRequestOfflineTestData.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(jsonObjectRequestOfflineTestData);
+
+
+
+    }
+    String extractFilenameFromPath(String path){
+
+        StringBuilder reverseFilepath = new StringBuilder();
+        reverseFilepath.append(path);
+        reverseFilepath.reverse();
+        char [] PDFFileName = reverseFilepath.toString().toCharArray();
+        String fileID = "";
+
+        for (int i =0;i<PDFFileName.length;i++)
+        {
+
+            if ( PDFFileName[i] == '/')
+            {
+                break;
+                // Log.i("Inside Loop of PDF Name",i +" "+PDFFileName[i]);
+            }
+            fileID += PDFFileName[i];
+        }
+        StringBuilder reverseFileId = new StringBuilder();
+        reverseFileId.append(fileID);
+        reverseFileId.reverse();
+
+      //  Log.i("PDF File Name",reverseFilepath.toString());
+        Log.i("Extracted PDF File Name",reverseFileId.toString());
+
+        return reverseFileId.toString();
+    }
+
+    private String downloadPDF(String ques_pdf) {
+    Log.i("Ques PDF in PDF Dwnld",ques_pdf);
+        ContextWrapper wrapper = new ContextWrapper(this);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);// To remomove the exception
+
+        try {
+            int file_length = 0;
+            java.net.URL url = new URL(ques_pdf);
+
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.connect();
+
+            file_length = urlConnection.getContentLength();
+            //  Toast.makeText(wrapper, ""+file_length, Toast.LENGTH_SHORT).show();
+
+          /*  int time = (int) (System.currentTimeMillis());
+            Timestamp tsTemp = new Timestamp(time);
+            String ts =  tsTemp.toString();*/
+
+//            Long tsLong = System.currentTimeMillis();
+  //          String ts = tsLong.toString();
+           /* StringBuilder reverseFilepath = new StringBuilder();
+            reverseFilepath.append(ques_pdf);
+            reverseFilepath.reverse();
+            char [] PDFFileName = reverseFilepath.toString().toCharArray();
+            String fileID = "";
+
+            for (int i =0;i<PDFFileName.length;i++)
+            {
+
+                if ( PDFFileName[i] == '/')
+                {
+                    break;
+                    // Log.i("Inside Loop of PDF Name",i +" "+PDFFileName[i]);
+                }
+                fileID += PDFFileName[i];
+            }
+            StringBuilder reverseFileId = new StringBuilder();
+            reverseFileId.append(fileID);
+            reverseFileId.reverse();
+
+            Log.i("PDF File Name",reverseFilepath.toString());
+            Log.i("Extracted PDF File Name",reverseFileId.toString());
+*/
+
+            Log.i("PDF Size", "" + file_length);
+            File file = wrapper.getDir("offline_test_pdf", MODE_PRIVATE);
+            file = new File(file, extractFilenameFromPath(ques_pdf));
+            Log.i("PDF File Path",file.getAbsolutePath());
+
+
+            try {
+
+                InputStream inputStream = new BufferedInputStream(url.openStream(), 1024);
+                byte[] data = new byte[1024];
+                int total = 0;
+                int count = 0;
+                OutputStream stream = null;
+                stream = new FileOutputStream(file);
+                while ((count = inputStream.read(data)) != -1) {
+
+                    total += count;
+                    stream.write(data, 0, count);
+                    //int progress = (int)total * 100 / file_length;
+
+                }
+                inputStream.close();
+
+                stream.flush();
+                stream.close();
+
+            } catch (IOException e) // Catch the exception
+            {
+                Log.i("File Download Exception", e.toString());
+                e.printStackTrace();
+            }
+
+            // Parse the gallery image url to uri
+            Uri savedPDFURI = Uri.parse(file.getAbsolutePath());
+            return savedPDFURI.toString();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+        public class MyAsyncTasks extends AsyncTask<String, String, String> {
 
         ProgressDialog progressDialog;
 

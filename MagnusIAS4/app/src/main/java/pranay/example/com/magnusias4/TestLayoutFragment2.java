@@ -192,7 +192,7 @@ public class TestLayoutFragment2 extends android.support.v4.app.Fragment {
 
 
     private void prepareAlbums(JSONArray temp) throws JSONException {
-        int[] covers = new int[]{
+        /*int[] covers = new int[]{
                 R.drawable.english,
                 R.drawable.gs1,
                 R.drawable.gs2,
@@ -204,7 +204,7 @@ public class TestLayoutFragment2 extends android.support.v4.app.Fragment {
                 R.drawable.gs1,
                 R.drawable.gs2,
                 R.drawable.gs3};
-
+*/
 
 
             for (int i = 0; i < temp.length(); i++) {
